@@ -11,6 +11,6 @@ export async function getGames(req, res) {
 }
 
 export async function postGame(req, res) {
-  const body = res.locals.validatedGame;
-  res.send(body);
+  const gameObject = res.locals.validatedGame;
+  res.send(gameObject);
 }
