@@ -7,7 +7,7 @@ export async function gameSchemaValidation(req, res, next) {
     const errors = error.details.map((detail) => detail.message);
     return res.status(400).send(errors);
   }
-  console.log("Sucess: game schema validated!");
+  console.log("middleware: gameSchemaValidation passed!");
   res.locals.validatedGame = gameObject;
   next();
 }

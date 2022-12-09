@@ -8,6 +8,7 @@ export async function existingCategory(req, res, next) {
       [gameObject.categoryId]
     );
     if (existingCategory.rowCount) {
+        console.log("middleware: existingCategory passed!")
       res.locals.existentCategoryValidated = gameObject;
     } else {
       return res.status(400).send({ message: "Categoria não cadastrada!" });
