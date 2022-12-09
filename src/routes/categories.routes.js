@@ -1,7 +1,7 @@
 import { Router } from "express";
 import {
   postCategory,
-  getCategory,
+  getCategories,
 } from "../controllers/categories.controllers.js";
 
 import { categorySchemaValidation } from "../middlewares/categorySchemaValidation.middleware.js";
@@ -9,7 +9,7 @@ import { existingCategory } from "../middlewares/categoryExistingValidation.midd
 
 const categoriesRouter = Router();
 
-categoriesRouter.get("/categories", getCategory);
+categoriesRouter.get("/categories", getCategories);
 categoriesRouter.post("/categories", categorySchemaValidation, existingCategory, postCategory)
 
 export default categoriesRouter;

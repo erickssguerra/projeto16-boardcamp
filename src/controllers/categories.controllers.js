@@ -14,7 +14,7 @@ export async function postCategory(req, res) {
   }
 }
 
-export async function getCategory(req, res) {
+export async function getCategories(req, res) {
   try {
     const categories = await connectionDB.query("SELECT * FROM categories;");
     res.status(200).send(categories.rows);
