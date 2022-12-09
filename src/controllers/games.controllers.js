@@ -16,9 +16,10 @@ export async function getGames(req, res) {
           games."categoryId" = categories.id
         WHERE
           (games.name) 
-        ILIKE 
-          '${nameQuery}%'
-        ;`
+        ILIKE CONCAT
+          (CAST($1 AS TEXT),'%')
+        ;`,
+        [nameQuery]
       );
       return res.status(200).send(games.rows);
     } else {
