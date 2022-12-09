@@ -1,7 +1,7 @@
 import connectionDB from "../database/database.js";
 
 export async function getGames(req, res) {
-  const nameQuery = req.query.name?.trim().toLowerCase();
+  const nameQuery = req.query.name?.trim();
   try {
     if (nameQuery) {
       const games = await connectionDB.query(
@@ -14,9 +14,9 @@ export async function getGames(req, res) {
           categories
         ON
           games."categoryId" = categories.id
-        WHERE LOWER
+        WHERE
           (games.name) 
-        LIKE 
+        ILIKE 
           '${nameQuery}%'
         ;`
       );
