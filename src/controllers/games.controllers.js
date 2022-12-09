@@ -1,9 +1,17 @@
 import connectionDB from "../database/database.js";
 
 export async function getGames(req, res) {
+  const nameQuery = req.query.name?.trim().toLowerCase();
   try {
-    const games = await connectionDB.query("SELECT * FROM games;");
-    res.status(200).send(games.rows);
+    if (nameQuery) {
+      const games = await connectionDB.query(
+        `SELECT * FROM games WHERE LOWER(name) LIKE '${nameQuery}%';`
+      );
+      return res.status(200).send(games.rows);
+    } else {
+      const games = await connectionDB.query("SELECT * FROM games;");
+      return res.status(200).send(games.rows);
+    }
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
