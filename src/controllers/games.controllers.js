@@ -9,3 +9,8 @@ export async function getGames(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function postGame(req, res) {
+  const body = res.locals.validatedGame;
+  res.send(body);
+}
