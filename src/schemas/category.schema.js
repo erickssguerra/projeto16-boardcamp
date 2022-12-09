@@ -1,5 +1,5 @@
 import joi from "joi";
 
-export const categoriesSchema = joi.object({
+export const categorySchema = joi.object({
   name: joi.string().required(),
 });
