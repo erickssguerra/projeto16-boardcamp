@@ -1,4 +1,4 @@
-import connectionDB from "../database/database.js";
+import connectionDB from "../../database/database.js";
 
 export async function existingCategory(req, res, next) {
   const name = res.locals.validatedCategory;

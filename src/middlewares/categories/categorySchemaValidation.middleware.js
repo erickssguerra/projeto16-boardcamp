@@ -1,4 +1,4 @@
-import { categorySchema } from "../schemas/category.schema.js";
+import { categorySchema } from "../../schemas/category.schema.js";
 
 export async function categorySchemaValidation(req, res, next) {
   const { name } = req.body;

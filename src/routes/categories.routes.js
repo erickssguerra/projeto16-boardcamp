@@ -4,8 +4,8 @@ import {
   getCategories,
 } from "../controllers/categories.controllers.js";
 
-import { categorySchemaValidation } from "../middlewares/categorySchemaValidation.middleware.js";
-import { existingCategory } from "../middlewares/categoryExistingValidation.middleware.js";
+import { categorySchemaValidation } from "../middlewares/categories/categorySchemaValidation.middleware.js";
+import { existingCategory } from "../middlewares/categories/categoryExistingValidation.middleware.js";
 
 const categoriesRouter = Router();
 
