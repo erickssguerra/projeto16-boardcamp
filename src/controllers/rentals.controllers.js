@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 export async function getRentals(req, res) {}
 
 export async function postRental(req, res) {
-  const rentalObject = res.locals.rentalExistingGame;
+  const rentalObject = res.locals.gameAvailableToRent;
   const pricePerDay = res.locals.pricePerDayGame;
   const { customerId, gameId, daysRented } = rentalObject;
   const rentDate = dayjs().format("YYYY-MM-DD");
