@@ -12,7 +12,7 @@ export async function existingCpf(req, res, next) {
       return res.status(409).send({ message: "CPF já cadastrado!" });
     } else {
       console.log("middleware: exisgintCpf passed!");
-      res.locals.nonExistingCpf = costumerObject;
+      res.locals.validatedCostumer = costumerObject;
     }
   } catch (err) {
     console.log(err);
