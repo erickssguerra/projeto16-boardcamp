@@ -1,4 +1,5 @@
 import connectionDB from "../../database/database.js";
+import chalk from "chalk";
 
 export async function existingCategory(req, res, next) {
   const gameObject = res.locals.validatedGame;
@@ -8,9 +9,10 @@ export async function existingCategory(req, res, next) {
       [gameObject.categoryId]
     );
     if (existingCategory.rowCount) {
-        console.log("middleware: existingCategory passed!")
+      console.log(chalk.yellow("middleware: existingCategory passed..."));
       res.locals.existentCategoryValidated = gameObject;
     } else {
+      console.log(chalk.red("middleware: existingCategory blocked!"));
       return res.status(400).send({ message: "Categoria não cadastrada!" });
     }
   } catch (err) {
