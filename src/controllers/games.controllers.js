@@ -1,3 +1,4 @@
+import chalk from "chalk";
 import connectionDB from "../database/database.js";
 
 export async function getGames(req, res) {
@@ -21,6 +22,13 @@ export async function getGames(req, res) {
         ;`,
         [nameQuery]
       );
+      if (games.rowCount) {
+        console.log(chalk.green("controller: getGames with query concluded!"));
+      } else {
+        console.log(
+          chalk.yellow("controller: getGames with query returned empty!")
+        );
+      }
       return res.status(200).send(games.rows);
     } else {
       const games = await connectionDB.query(
@@ -35,6 +43,7 @@ export async function getGames(req, res) {
           games."categoryId" = categories.id
         ;`
       );
+      console.log(chalk.green("controller: getGames concluded!"));
       return res.status(200).send(games.rows);
     }
   } catch (err) {
@@ -54,7 +63,7 @@ export async function postGame(req, res) {
         ($1, $2, $3, $4, $5);`,
       [name, image, stockTotal, categoryId, pricePerDay]
     );
-    console.log("controller: postGame passed!");
+    console.log(chalk.green("controller: postGame concluded!"));
     return res.status(201).send({ message: "Jogo cadastrado com sucesso!" });
   } catch (err) {
     console.log(err);

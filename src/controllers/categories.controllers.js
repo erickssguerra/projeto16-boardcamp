@@ -1,4 +1,5 @@
 import connectionDB from "../database/database.js";
+import chalk from "chalk";
 
 export async function postCategory(req, res) {
   const name = res.locals.nonExistentCategory;
@@ -7,6 +8,7 @@ export async function postCategory(req, res) {
       "INSERT INTO categories (name) VALUES ($1);",
       [name]
     );
+    console.log(chalk.green("controller: postCategory concluded!"));
     res.sendStatus(201);
   } catch (err) {
     console.log(err);
@@ -17,6 +19,7 @@ export async function postCategory(req, res) {
 export async function getCategories(req, res) {
   try {
     const categories = await connectionDB.query("SELECT * FROM categories;");
+    console.log(chalk.green("controller: getCategories concluded!"));
     res.status(200).send(categories.rows);
   } catch (err) {
     console.log(err);

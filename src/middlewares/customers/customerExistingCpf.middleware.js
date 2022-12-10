@@ -1,7 +1,8 @@
 import connectionDB from "../../database/database.js";
+import chalk from "chalk";
 
 export async function existingCpf(req, res, next) {
-  const costumerObject = res.locals.validatedCustomer;
+  const costumerObject = res.locals.schemaValidatedCustomer;
   const { cpf } = costumerObject;
   try {
     const existingCpf = await connectionDB.query(
@@ -9,9 +10,10 @@ export async function existingCpf(req, res, next) {
       [cpf]
     );
     if (existingCpf.rowCount) {
+      console.log(chalk.red("middleware: existingCpf blocked!"))
       return res.status(409).send({ message: "CPF já cadastrado!" });
     } else {
-      console.log("middleware: exisgintCpf passed!");
+      console.log(chalk.yellow("middleware: exisgintCpf passed..."));
       res.locals.validatedCostumer = costumerObject;
     }
   } catch (err) {
