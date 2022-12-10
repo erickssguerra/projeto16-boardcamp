@@ -87,20 +87,20 @@ export async function putCustomerById(req, res) {
   const costumerObject = res.locals.validatedCostumer;
   const { name, phone, cpf, birthday } = costumerObject;
   try {
-    // await connectionDB.query(
-    //   `
-    //     UPDATE
-    //         costumers
-    //     SET
-    //         name=$1,
-    //         phone=$2,
-    //         cpf=$3,
-    //         birthday=$4
-    //     WHERE
-    //         id=$5
-    //     ;`,
-    //   [name, phone, cpf, birthday, id]
-    // );
+    await connectionDB.query(
+      `
+        UPDATE
+            customers
+        SET
+            name=$1,
+            phone=$2,
+            cpf=$3,
+            birthday=$4
+        WHERE
+            id=$5
+        ;`,
+      [name, phone, cpf, birthday, id]
+    );
     console.log(chalk.green("controller: putCustomerById concluded!"));
     res.status(200).send({ message: "Dados do usuário atualizados!" });
   } catch (err) {
