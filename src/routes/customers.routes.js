@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { postCustomer } from "../controllers/customers.controllers.js";
+import {
+  postCustomer,
+  getCustomers,
+} from "../controllers/customers.controllers.js";
 import { customerSchemaValidation } from "../middlewares/customers/customerSchemaValidation.middleware.js";
 import { existingCpf } from "../middlewares/customers/customerExistingCpf.middleware.js";
 
@@ -11,5 +14,6 @@ customersRouter.post(
   existingCpf,
   postCustomer
 );
+customersRouter.get("/customers", getCustomers);
 
 export default customersRouter;

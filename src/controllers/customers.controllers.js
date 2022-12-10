@@ -20,3 +20,18 @@ export async function postCustomer(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function getCustomers(req, res) {
+  try {
+    const costumers = await connectionDB.query(`
+        SELECT 
+          *
+        FROM
+          customers
+        ;`);
+    return res.status(200).send(costumers.rows);
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
