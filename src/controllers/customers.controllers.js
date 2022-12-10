@@ -22,14 +22,23 @@ export async function postCustomer(req, res) {
 }
 
 export async function getCustomers(req, res) {
+  const cpfQuery = Number(req.query.cpf);
+  const selectAllQuery = "SELECT * FROM customers";
   try {
-    const costumers = await connectionDB.query(`
-        SELECT 
-          *
-        FROM
-          customers
-        ;`);
-    return res.status(200).send(costumers.rows);
+    if (cpfQuery) {
+      const costumers = await connectionDB.query(`
+      ${selectAllQuery} 
+      WHERE 
+        cpf 
+      LIKE
+        '${cpfQuery}%'
+      ;`
+      );
+      return res.status(200).send(costumers.rows);
+    } else {
+      const costumers = await connectionDB.query(`${selectAllQuery};`);
+      return res.status(200).send(costumers.rows);
+    }
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
