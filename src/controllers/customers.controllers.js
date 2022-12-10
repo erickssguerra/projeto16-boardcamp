@@ -32,12 +32,36 @@ export async function getCustomers(req, res) {
         cpf 
       LIKE
         '${cpfQuery}%'
-      ;`
-      );
+      ;`);
       return res.status(200).send(costumers.rows);
     } else {
       const costumers = await connectionDB.query(`${selectAllQuery};`);
       return res.status(200).send(costumers.rows);
+    }
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export async function getCustomerById(req, res) {
+  const id = req.params.id;
+  try {
+    const customer = await connectionDB.query(
+      `
+    SELECT
+      *
+    FROM
+      customers
+    WHERE
+      id = $1
+    ;`,
+      [id]
+    );
+    if (customer.rowCount) {
+      res.status(200).send(customer.rows[0]);
+    } else {
+      res.status(404).send({ message: "Usuário não encontrado!" });
     }
   } catch (err) {
     console.log(err);
