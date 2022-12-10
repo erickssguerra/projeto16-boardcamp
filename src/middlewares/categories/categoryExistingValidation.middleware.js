@@ -10,7 +10,7 @@ export async function existingCategory(req, res, next) {
     if (existingCategory.rowCount) {
       return res.status(409).send({messsage: "Categoria já cadastrada!"});
     } else {
-      console.log("Success: name allowed to be registered!")
+      console.log("middleware: existingCategory passed!")
       res.locals.nonExistentCategory = name;
     }
   } catch (err) {
