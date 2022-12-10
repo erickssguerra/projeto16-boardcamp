@@ -1,6 +1,6 @@
 import connectionDB from "../database/database.js";
 
 export async function postCustomer(req, res) {
-  const costumerObject = res.locals.validatedCustomer;
+  const costumerObject = res.locals.nonExistingCpf;
   res.status(201).send(costumerObject);
 }
