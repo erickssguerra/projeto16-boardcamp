@@ -12,6 +12,7 @@ export async function existingGame(req, res, next) {
     );
     if (existingGame.rowCount) {
       console.log(chalk.yellow("middleware: existingGame passed..."));
+      res.locals.pricePerDayGame = existingGame.rows[0].pricePerDay;
       res.locals.rentalExistingGame = rentalObject;
     } else {
       console.log(chalk.red("middleware: existingGame blocked!"));
