@@ -9,12 +9,14 @@ export async function existingReturnDate(req, res, next) {
     ;`,
       [id]
     );
-    if (!rentalObject.rows[0].returnDate) {
-      console.log(chalk.red("middleware: returnDateVerification blocked!"));
+    const returnDate = rentalObject.rows[0].returnDate;
+    if (!returnDate) {
+      console.log(chalk.red("middleware: existingReturnDate blocked!"));
       return res.status(400).send({ message: "Aluguel não finalizado!" });
+    } else {
+      console.log(chalk.yellow("middleware: existingReturnDate passed..."));
+      res.locals.returnDateVerifiedId = id;
     }
-    console.log(chalk.yellow("middleware: returnDateVerification passed..."));
-    res.locals.returnDateVerifiedId = id;
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
