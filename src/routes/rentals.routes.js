@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { postRental } from "../controllers/rentals.controllers.js";
+import { getRentals, postRental } from "../controllers/rentals.controllers.js";
 import { rentalSchemaValidation } from "../middlewares/rentals/rentalSchemaValidation.middleware.js";
 import { existingCustomer } from "../middlewares/rentals/rentalExistingCustomer.middleware.js";
 import { existingGame } from "../middlewares/rentals/rentalExistingGame.middleware.js";
@@ -15,5 +15,6 @@ rentalsRouter.post(
   gameAvailability,
   postRental
 );
+rentalsRouter.get("/rentals", getRentals)
 
 export default rentalsRouter;
