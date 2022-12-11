@@ -1,9 +1,8 @@
 import connectionDB from "../../database/database.js";
 import chalk from "chalk";
 
-export async function returnDateVerification(req, res, next) {
+export async function existingReturnDate(req, res, next) {
   const id = res.locals.existingRentalId;
-  console.log(chalk.yellow("middleware: returnDateVerification passed..."));
   try {
     const rentalObject = await connectionDB.query(
       `SELECT * FROM rentals WHERE id = $1    

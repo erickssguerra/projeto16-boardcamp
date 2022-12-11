@@ -123,3 +123,9 @@ export async function deleteRentalById(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function postReturnRental(req, res) {
+  const id = res.locals.notExistingReturnDate;
+  console.log(chalk.green("controller: postReturnRental concluded!"));
+  res.status(200).send({ id });
+}
