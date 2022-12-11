@@ -111,3 +111,9 @@ export async function postRental(req, res) {
     res.sendStatus(500);
   }
 }
+
+export async function deleteRentalById(req, res) {
+  const id = res.locals.existingRentalId;
+  console.log(chalk.green("controller: deleteRentalById concluded!"));
+  res.status(200).send({ id });
+}
