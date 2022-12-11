@@ -114,6 +114,12 @@ export async function postRental(req, res) {
 
 export async function deleteRentalById(req, res) {
   const id = res.locals.returnDateVerifiedId;
-  console.log(chalk.green("controller: deleteRentalById concluded!"));
-  res.status(200).send({ id });
+  try {
+    await connectionDB.query(`DELETE FROM rentals WHERE id = $1;`, [id]);
+    console.log(chalk.green("controller: deleteRentalById concluded!"));
+    res.status(200).send({ message: "Aluguel apagado com sucesso!" });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 }
