@@ -9,6 +9,7 @@ import { existingCustomer } from "../middlewares/rentals/rentalExistingCustomer.
 import { existingGame } from "../middlewares/rentals/rentalExistingGame.middleware.js";
 import { gameAvailability } from "../middlewares/rentals/rentalGameAvailability.middleware.js";
 import { existingRentalId } from "../middlewares/rentals/rentalExistingRentalId.middleware.js";
+import { returnDateVerification } from "../middlewares/rentals/rentalReturnDateVerification.middlware.js";
 
 const rentalsRouter = Router();
 
@@ -24,7 +25,7 @@ rentalsRouter.get("/rentals", getRentals);
 rentalsRouter.delete(
   "/rentals/:id",
   existingRentalId,
-  //returnDateVerification,
+  returnDateVerification,
   deleteRentalById
 );
 

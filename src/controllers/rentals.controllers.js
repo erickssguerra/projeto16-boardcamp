@@ -113,7 +113,7 @@ export async function postRental(req, res) {
 }
 
 export async function deleteRentalById(req, res) {
-  const id = res.locals.existingRentalId;
+  const id = res.locals.returnDateVerifiedId;
   console.log(chalk.green("controller: deleteRentalById concluded!"));
   res.status(200).send({ id });
 }
