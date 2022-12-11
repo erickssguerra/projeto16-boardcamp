@@ -15,7 +15,7 @@ export async function notExistingReturnDate(req, res, next) {
       return res.status(400).send({ message: "Aluguel já foi finalizado!" });
     } else {
       console.log(chalk.yellow("middleware: notExistingReturnDate passed..."));
-      res.locals.notExistingReturnDate = id;
+      res.locals.validatedRentalObject = rentalObject.rows[0];
     }
   } catch (err) {
     console.log(err);

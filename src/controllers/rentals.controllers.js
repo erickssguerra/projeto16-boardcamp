@@ -125,7 +125,36 @@ export async function deleteRentalById(req, res) {
 }
 
 export async function postReturnRental(req, res) {
-  const id = res.locals.notExistingReturnDate;
-  console.log(chalk.green("controller: postReturnRental concluded!"));
-  res.status(200).send({ id });
+  const { id, rentDate, daysRented, originalPrice } =
+    res.locals.validatedRentalObject;
+  const returnDate = dayjs().format("YYYY-MM-DD");
+  const now = new Date(returnDate);
+
+  const past = new Date(rentDate);
+  const diff = Math.abs(now.getTime() - past.getTime());
+  const realDaysRented = Math.ceil(diff / (1000 * 60 * 60 * 24));
+  const pricePerDay = originalPrice / daysRented;
+  let delayFee = null;
+  if (realDaysRented > daysRented) {
+    delayFee = (realDaysRented - daysRented) * pricePerDay;
+  }
+  try {
+    await connectionDB.query(
+      `
+    UPDATE 
+        rentals
+    SET
+        "returnDate" =$1,
+        "delayFee" =$2
+    WHERE
+        id=$3
+    ;`,
+      [returnDate, delayFee, id]
+    );
+    console.log(chalk.green("controller: postReturnRental concluded!"));
+    res.status(200).send({ message: "Aluguel finalizado com sucesso!" });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 }
