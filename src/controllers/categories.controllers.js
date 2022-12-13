@@ -17,8 +17,8 @@ export async function postCategory(req, res) {
 }
 
 export async function getCategories(req, res) {
-  const { offset } = req.query;
-  const { limit } = req.query;
+  const offset = Number(req.query.offset);
+  const limit = Number(req.query.limit);
   const getQuery = `SELECT * from categories`;
   try {
     if (offset && !limit) {
