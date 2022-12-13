@@ -17,10 +17,50 @@ export async function postCategory(req, res) {
 }
 
 export async function getCategories(req, res) {
+  const { offset } = req.query;
+  const { limit } = req.query;
+  const getQuery = `SELECT * from categories`;
   try {
-    const categories = await connectionDB.query("SELECT * FROM categories;");
-    console.log(chalk.green("controller: getCategories concluded!"));
-    res.status(200).send(categories.rows);
+    if (offset && !limit) {
+      const categories = await connectionDB.query(
+        `
+      ${getQuery} OFFSET $1`,
+        [offset]
+      );
+      console.log(
+        chalk.green("controller: getCategories with query 'offset' concluded!")
+      );
+      res.status(200).send(categories.rows);
+    } else if (!offset && limit) {
+      const categories = await connectionDB.query(
+        `
+      ${getQuery} LIMIT $1`,
+        [limit]
+      );
+      console.log(
+        chalk.green("controller: getCategories with query 'limit' concluded!")
+      );
+      res.status(200).send(categories.rows);
+    } else if (offset && limit) {
+      const categories = await connectionDB.query(
+        `
+      ${getQuery} OFFSET $1 LIMIT $2`,
+        [offset, limit]
+      );
+
+      console.log(
+        chalk.green(
+          "controller: getCategories with queries 'offset' and 'limit' concluded!"
+        )
+      );
+      res.status(200).send(categories.rows);
+    } else {
+      const categories = await connectionDB.query(`${getQuery};`);
+      console.log(
+        chalk.green("controller: getCategories without queries concluded!")
+      );
+      res.status(200).send(categories.rows);
+    }
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
