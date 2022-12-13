@@ -4,6 +4,7 @@ import {
   postRental,
   deleteRentalById,
   postReturnRental,
+  getRentalsMetrics,
 } from "../controllers/rentals.controllers.js";
 import { rentalSchemaValidation } from "../middlewares/rentals/rentalSchemaValidation.middleware.js";
 import { existingCustomer } from "../middlewares/rentals/rentalExistingCustomer.middleware.js";
@@ -24,6 +25,7 @@ rentalsRouter.post(
   postRental
 );
 rentalsRouter.get("/rentals", getRentals);
+
 rentalsRouter.delete(
   "/rentals/:id",
   existingRentalId,
@@ -38,4 +40,5 @@ rentalsRouter.post(
   postReturnRental
 );
 
+rentalsRouter.get("/rentals/metrics", getRentalsMetrics);
 export default rentalsRouter;

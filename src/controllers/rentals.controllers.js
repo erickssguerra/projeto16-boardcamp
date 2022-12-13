@@ -32,10 +32,7 @@ export async function getRentals(req, res) {
       res.status(200).send(rentalObject.rows);
     } else if (!customerId && gameId) {
       const rentalObject = await connectionDB.query(
-        `${rentalQuery}
-        WHERE
-            "gameId" = $1        
-        ;`,
+        `${rentalQuery} WHERE "gameId" = $1;`,
         [gameId]
       );
       console.log(
@@ -44,10 +41,7 @@ export async function getRentals(req, res) {
       res.status(200).send(rentalObject.rows);
     } else if (customerId && !gameId) {
       const rentalObject = await connectionDB.query(
-        `${rentalQuery}
-            WHERE
-                "customerId" = $1          
-            ;`,
+        `${rentalQuery} WHERE "customerId" = $1;`,
         [customerId]
       );
       console.log(
@@ -153,6 +147,66 @@ export async function postReturnRental(req, res) {
     );
     console.log(chalk.green("controller: postReturnRental concluded!"));
     res.status(200).send({ message: "Aluguel finalizado com sucesso!" });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
+}
+
+export async function getRentalsMetrics(req, res) {
+  const startDate = new Date(req.query.startDate);
+  const endDate = new Date(req.query.endDate);
+  const getQuery = `
+  SELECT 
+    SUM("originalPrice") AS "revenue", 
+    COUNT(id) AS "rentals", 
+    AVG("originalPrice") AS "average" 
+  FROM 
+    rentals
+  `;
+  try {
+    if (startDate == "Invalid Date" && endDate == "Invalid Date") {
+      const metrics = await connectionDB.query(`${getQuery};`);
+      console.log(
+        chalk.green("controller: getRentalMetrics with no queries concluded!")
+      );
+      res.status(200).send(metrics.rows[0]);
+    } else if (startDate != "Invalid Date" && endDate == "Invalid Date") {
+      const metrics = await connectionDB.query(
+        `${getQuery} WHERE "rentDate" >= $1;`,
+        [startDate.toISOString()]
+      );
+      console.log(
+        chalk.green(
+          "controller: getRentalMetrics with query 'startDate' concluded!"
+        )
+      );
+      res.status(200).send(metrics.rows[0]);
+    } else if (startDate != "Invalid Date" && endDate != "Invalid Date") {
+      const metrics = await connectionDB.query(
+        `${getQuery} WHERE "rentDate" >= $1 AND "rentDate" <= $2;`,
+        [startDate.toISOString(), endDate.toISOString()]
+      );
+      console.log(
+        chalk.green(
+          "controller: getRentalMetrics with queries 'startDate' and 'endDate' concluded!"
+        )
+      );
+      res.status(200).send(metrics.rows[0]);
+    } else if (startDate == "Invalid Date" && endDate != "Invalid Date") {
+      const metrics = await connectionDB.query(
+        `
+      ${getQuery} WHERE "rentDate" <= $1;`,
+        [endDate.toISOString()]
+      );
+
+      console.log(
+        chalk.green(
+          "controller: getRentalMetrics with query 'endDate' concluded!"
+        )
+      );
+      res.status(200).send(metrics.rows[0]);
+    }
   } catch (err) {
     console.log(err);
     res.sendStatus(500);
